@@ -245,14 +245,13 @@ def main(win, width):
                     end = None
                     grid = make_grid(ROWS, width)
                             
-                if event.key == pygame.K_SPACE and not started: # Start Algo
+                if event.key == pygame.K_SPACE and start and end: # Start Algo
                     # Need both start and end to run
-                    if start != None and end != None: 
-                        for row in grid:
-                            for node in row:
-                                node.update_neighbors(grid)
+                    for row in grid:
+                        for node in row:
+                            node.update_neighbors(grid)
 
-                        algo(lambda: draw(win, grid, ROWS, width), grid, start, end)
+                    algo(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
 
 
