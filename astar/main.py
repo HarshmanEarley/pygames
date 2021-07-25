@@ -83,7 +83,7 @@ class node:
     def update_neighbors(self,grid):
         self.neighbours = []
 
-        if self.row < self.total_rows - 1 and not grid[self.row - 1][self.col].is_wall(): # DOWN
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_wall(): # DOWN
             self.neighbours.append(grid[self.row + 1][self.col])
 
         if self.row > 0 and not grid[self.row - 1][self.col].is_wall(): # UP
@@ -168,6 +168,7 @@ def algo(draw, grid, start, end):
             # Hit the end node, finalise path
             reconstruct_path(came_from, end, draw)
             end.set_end()
+            start.set_start()
             return True
 
         for neighbour in current.neighbours:
@@ -250,11 +251,13 @@ def main(win, width):
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
+                            if not(node.is_start() or node.is_end() or node.is_wall()):
+                                node.reset()
 
                     algo(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
-
-
+    #Quit when break from run while loop
     pygame.quit()
 
+#Run main
 main(WIN,WIDTH)
